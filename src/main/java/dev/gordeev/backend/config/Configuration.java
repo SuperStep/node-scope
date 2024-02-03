@@ -1,6 +1,7 @@
 package dev.gordeev.backend.config;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.context.annotation.Bean;
 import oshi.SystemInfo;
 
@@ -17,4 +18,8 @@ public class Configuration {
         return JsonMapper.builder().build();
     }
 
+    @Bean
+    public OpenAPI getOpenapiDoc() {
+        return new OpenAPI();
+    }
 }

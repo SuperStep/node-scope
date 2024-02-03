@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.siouan.frontend-jdk17' version '8.0.0'
 }
 
 ext {
@@ -16,6 +17,22 @@ java {
 	sourceCompatibility = '17'
 }
 
+frontend {
+	nodeVersion = '20.11.0'
+	installScript = 'install'
+	packageJsonDirectory= file("${projectDir}/src/ui")
+	nodeInstallDirectory = file("${projectDir}/src/ui/node")
+	assembleScript = 'run build'
+}
+
+
+tasks.register('copyReactApp', Copy) {
+	from "${projectDir}/src/ui/build"
+	into "${projectDir}/build/resources/main/public/."
+}
+
+bootJar.dependsOn(copyReactApp)
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -27,9 +44,9 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.3.0'
 
 	implementation 'com.github.oshi:oshi-core:6.4.10'
 	implementation 'org.slf4j:slf4j-api:2.0.9'
