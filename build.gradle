@@ -32,6 +32,12 @@ tasks.register('copyReactApp', Copy) {
 }
 
 bootJar.dependsOn(copyReactApp)
+bootJar {
+	mainClass = 'dev.gordeev.backend.BackendApplication'
+}
+jar {
+	enabled = false
+}
 
 configurations {
 	compileOnly {
