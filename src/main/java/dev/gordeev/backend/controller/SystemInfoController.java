@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class MachineInfoController {
+public class SystemInfoController {
 
     private final SystemInfoService infoService;
 

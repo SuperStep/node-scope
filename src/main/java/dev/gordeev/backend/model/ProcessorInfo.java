@@ -8,8 +8,8 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class ProcessorInfo {
+    String description;
     long cores;
-    String name;
     long maxFreq;
-    int usage;
+    double[] coresLoad;
 }

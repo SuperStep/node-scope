@@ -47,6 +47,9 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven{
+		url 'https://maven.atlassian.com/3rdparty/'
+	}
 }
 
 dependencies {
