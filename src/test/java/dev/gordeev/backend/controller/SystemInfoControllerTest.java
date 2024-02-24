@@ -9,7 +9,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @SpringBootTest(webEnvironment=RANDOM_PORT)
-class MachineInfoControllerTest {
+class SystemInfoControllerTest {
 
     @Autowired
     private WebTestClient client;

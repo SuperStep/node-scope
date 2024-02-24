@@ -13,7 +13,7 @@ public class MachineInfo {
 
     String operatingSystem;
     SystemUptime uptime;
-    String ramInfo;
+    RAMInfo ramInfo;
     ProcessorInfo processorInfo;
     StorageInfo storageInfo;
 }

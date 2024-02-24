@@ -1,13 +1,12 @@
 package dev.gordeev.backend.service;
 
-import dev.gordeev.backend.model.MachineInfo;
-import dev.gordeev.backend.model.ProcessorInfo;
-import dev.gordeev.backend.model.StorageInfo;
-import dev.gordeev.backend.model.SystemUptime;
+import dev.gordeev.backend.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
 import oshi.hardware.HWDiskStore;
+import oshi.hardware.HardwareAbstractionLayer;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class SystemInfoServiceImpl implements SystemInfoService {
                 .uptime(getSystemUptime())
                 .processorInfo(getProcessorInfo())
                 .operatingSystem(systemInfo.getOperatingSystem().toString())
-                .ramInfo(systemInfo.getHardware().getMemory().toString())
+                .ramInfo(getRamInfo())
                 .storageInfo(getStorageInfo())
                 .build();
     }
@@ -39,10 +38,20 @@ public class SystemInfoServiceImpl implements SystemInfoService {
 
     private ProcessorInfo getProcessorInfo() {
         return ProcessorInfo.builder()
-                .name(systemInfo.getHardware().getProcessor().getProcessorIdentifier().getName())
+                .coresLoad(systemInfo.getHardware().getProcessor().getProcessorCpuLoad(1000))
+                .description(systemInfo.getHardware().getProcessor().toString())
                 .cores(systemInfo.getHardware().getProcessor().getPhysicalProcessors().size())
                 .maxFreq(systemInfo.getHardware().getProcessor().getMaxFreq())
                 .build();
+    }
+
+    private RAMInfo getRamInfo() {
+        return RAMInfo.builder()
+                .total(systemInfo.getHardware().getMemory().getTotal())
+                .available(systemInfo.getHardware().getMemory().getAvailable())
+                .build();
+
+
     }
 
     private StorageInfo getStorageInfo() {
