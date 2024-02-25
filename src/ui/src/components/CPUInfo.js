@@ -28,9 +28,9 @@ function prepareOptions(coresLoad) {
         },
         yAxis: [
             {
-                name: 'Cores',
-                nameLocation: 'center',
-                nameGap: 20,
+                // name: 'Cores',
+                // nameLocation: 'center',
+                // nameGap: 20,
                 type: 'category',
                 data: [...Array(coresLoad.data.length).keys()],
                 animationDuration: 300,
@@ -42,9 +42,9 @@ function prepareOptions(coresLoad) {
         ],
         xAxis: [
             {
-                name: 'Load',
-                nameLocation: 'center',
-                nameGap: 10,
+                // name: 'Load',
+                // nameLocation: 'center',
+                // nameGap: 10,
                 type: 'value',
                 max: 100
             }

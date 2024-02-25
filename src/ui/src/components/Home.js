@@ -3,6 +3,7 @@ import {Card, CardContent, Typography} from "@mui/material";
 import InfoCard from "./Card";
 import CPUInfo from "./CPUInfo";
 import MemUsageGauge from "./MemUsageGauge";
+import DiskUsage from "./DiskUsage";
 
 export default function Home() {
 
@@ -19,49 +20,48 @@ export default function Home() {
 
     // <CPUInfo data={data.processorInfo.coresLoad}/>
     // <MemUsageGauge data={data.ramInfo}/>
+    //{data.operatingSystem}
+    //{data.processorInfo.description}
 
     if (data) {
 
         return (
-            <div className="bg-white py-24 sm:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="mx-auto max-w-2xl lg:mx-0">
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data.operatingSystem}</h2>
-                        <p className="mt-2 text-lg leading-8 text-gray-600">
-                            {data.processorInfo.description}
-                        </p>
+            <div className="container my-24 mx-auto md:px-6">
+                <section className="mb-32 text-center">
+                    <h2 className="mb-12 pb-4 text-center text-3xl font-bold">
+                        {data.operatingSystem}
+                    </h2>
+
+                    <div className="grid gap-6 lg:grid-cols-3 xl:gap-x-12">
+                        <div className="mb-6 lg:mb-0">
+                            <div className="relative block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+                                <h5 className="mb-3 text-lg font-bold pt-6">CPU Usage</h5>
+                                <div className="p-10">
+                                    <CPUInfo data={data.processorInfo.coresLoad}/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mb-6 lg:mb-0">
+                            <div className="relative block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+                                <h5 className="mb-3 text-lg font-bold pt-6">RAM Usage</h5>
+                                <div className="p-10">
+                                    <MemUsageGauge data={data.ramInfo}/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mb-0">
+                            <div
+                                className="relative block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+                                <h5 className="mb-3 text-lg font-bold pt-6">RAM Usage</h5>
+                                <div className="p-10">
+                                    <DiskUsage data={data.storageInfo}/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                        <article className="flex max-w-xl flex-col items-start justify-center">
-                            <div className="flex items-center gap-x-4 text-xs">
-                                <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
-                                    CPU
-                                </a>
-                            </div>
-                            <div className="group relative">
-                                <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                    <span className="absolute inset-0" />
-                                    CPU Usage
-                                </h3>
-                                <CPUInfo data={data.processorInfo.coresLoad}/>
-                            </div>
-                        </article>
-                        <article className="flex max-w-xl flex-col items-start justify-center">
-                            <div className="flex items-center gap-x-4 text-xs">
-                                <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
-                                    RAM
-                                </a>
-                            </div>
-                            <div className="group relative">
-                                <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                    <span className="absolute inset-0" />
-                                    RAM Usage
-                                </h3>
-                                <MemUsageGauge data={data.ramInfo}/>
-                            </div>
-                        </article>
-                    </div>
-                </div>
+                </section>
             </div>
         )
     } else {
