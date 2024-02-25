@@ -4,14 +4,9 @@ import dev.gordeev.backend.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
-import oshi.hardware.CentralProcessor;
-import oshi.hardware.HWDiskStore;
-import oshi.hardware.HardwareAbstractionLayer;
+import oshi.software.os.OSFileStore;
 
 import java.time.Duration;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -56,31 +51,20 @@ public class SystemInfoServiceImpl implements SystemInfoService {
 
     private StorageInfo getStorageInfo() {
 
-        long total = systemInfo.getHardware().getDiskStores().stream().mapToLong(HWDiskStore::getSize).sum();
+        var stores = systemInfo.getOperatingSystem().getFileSystem().getFileStores();
 
-        String usageDescription = "";
-
-        Optional<HWDiskStore> store = systemInfo.getHardware().getDiskStores().stream().findFirst();
-        if(store.isPresent()) {
-            HWDiskStore diskStore = store.get();
-            usageDescription = diskStore.getModel();
-            Matcher matcher = Pattern.compile(STORAGE_REGEX).matcher(diskStore.getModel());
-            if (matcher.find()) {
-                usageDescription = usageDescription.substring(0, matcher.start() - 1);
-            }
-            usageDescription = usageDescription.trim();
-        }
+        long total = stores.stream().mapToLong(OSFileStore::getTotalSpace).sum();
+        long free = stores.stream().mapToLong(OSFileStore::getFreeSpace).sum();
 
         return StorageInfo.builder()
                 .totalSpace(total)
-                .freeSpace(0L)
-                .usage(usageDescription)
+                .freeSpace(free)
+                .usage(getDriveUsagePercent(total, free))
                 .build();
     }
 
     private int getDriveUsagePercent(long total, long free) {
         return (int) Math.round(((double) (total - free) / total) * 100);
     }
-
 
 }

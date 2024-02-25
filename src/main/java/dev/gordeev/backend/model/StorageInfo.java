@@ -8,5 +8,5 @@ import lombok.Value;
 public class StorageInfo {
     long totalSpace;
     long freeSpace;
-    String usage;
+    int usage;
 }
