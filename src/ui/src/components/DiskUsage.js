@@ -16,7 +16,11 @@ export default function DiskUsage(diskUsage) {
 function prepareOptions(diskUsage) {
     return {
         tooltip: {
-            trigger: 'item'
+            alwaysShowContent: false,
+            confine: true,
+            hideDelay: 5000,
+            trigger: 'item',
+            valueFormatter: (value) => (value / (1024 * 1024 * 1024)).toFixed(2) + " GB"
         },
         legend: {
             top: '5%',
@@ -40,7 +44,7 @@ function prepareOptions(diskUsage) {
                 emphasis: {
                     label: {
                         show: true,
-                        fontSize: 40,
+                        fontSize: 20,
                         fontWeight: 'bold'
                     }
                 },

@@ -4,6 +4,7 @@ import dev.gordeev.backend.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
+import oshi.hardware.HWDiskStore;
 import oshi.software.os.OSFileStore;
 
 import java.time.Duration;
@@ -13,7 +14,6 @@ import java.time.Duration;
 public class SystemInfoServiceImpl implements SystemInfoService {
 
     private final SystemInfo systemInfo;
-    private static final String STORAGE_REGEX = "\\(.{1,15} .{1,15} .{1,15}\\)";
 
     @Override
     public MachineInfo getMachineInfo() {
@@ -51,20 +51,48 @@ public class SystemInfoServiceImpl implements SystemInfoService {
 
     private StorageInfo getStorageInfo() {
 
-        var stores = systemInfo.getOperatingSystem().getFileSystem().getFileStores();
+        long actualBits = systemInfo.getHardware().getDiskStores().stream()
+                .mapToLong(HWDiskStore::getSize)
+                .sum();
 
-        long total = stores.stream().mapToLong(OSFileStore::getTotalSpace).sum();
-        long free = stores.stream().mapToLong(OSFileStore::getFreeSpace).sum();
+        var stores = systemInfo.getOperatingSystem().getFileSystem().getFileStores();
+        long total = stores.stream()
+                .mapToLong(OSFileStore::getTotalSpace)
+                .sum();
+        long free = stores.stream()
+                .mapToLong(OSFileStore::getFreeSpace)
+                .sum();
+        int percent = getDriveUsagePercent(total, free);
 
         return StorageInfo.builder()
-                .totalSpace(total)
-                .freeSpace(free)
-                .usage(getDriveUsagePercent(total, free))
+                .totalSpace(actualBits)
+                .freeSpace(actualBits - (actualBits * percent / 100))
+                .totalActual(getConvertedCapacity(actualBits))
+                .usage(percent)
                 .build();
     }
 
     private int getDriveUsagePercent(long total, long free) {
         return (int) Math.round(((double) (total - free) / total) * 100);
+    }
+
+    private String getConvertedCapacity(final long bits)
+    {
+        if ((bits / 1.049E+6) > 999)
+        {
+            if ((bits / 1.074E+9) > 999)
+            {
+                return (Math.round((bits / 1.1E+12) * 10.0) / 10.0) + " TiB";
+            }
+            else
+            {
+                return Math.round(bits / 1.074E+9) + " GiB";
+            }
+        }
+        else
+        {
+            return Math.round(bits / 1.049E+6) + " MiB";
+        }
     }
 
 }

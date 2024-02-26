@@ -1,6 +1,4 @@
 import React, {useLayoutEffect, useState} from "react";
-import {Card, CardContent, Typography} from "@mui/material";
-import InfoCard from "./Card";
 import CPUInfo from "./CPUInfo";
 import MemUsageGauge from "./MemUsageGauge";
 import DiskUsage from "./DiskUsage";
@@ -17,11 +15,6 @@ export default function Home() {
     useLayoutEffect(() => {
         getMetrics().catch(e => console.log(e));
     });
-
-    // <CPUInfo data={data.processorInfo.coresLoad}/>
-    // <MemUsageGauge data={data.ramInfo}/>
-    //{data.operatingSystem}
-    //{data.processorInfo.description}
 
     if (data) {
 
@@ -54,7 +47,7 @@ export default function Home() {
                         <div className="mb-0">
                             <div
                                 className="relative block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-                                <h5 className="mb-3 text-lg font-bold pt-6">RAM Usage</h5>
+                                <h5 className="mb-3 text-lg font-bold pt-6">Disk Usage</h5>
                                 <div className="p-10">
                                     <DiskUsage data={data.storageInfo}/>
                                 </div>
