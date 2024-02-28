@@ -1,6 +1,8 @@
 <h3 align = "center">
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/SuperStep/node-scope/docker-build.yml">
 <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/superstep/node-scope?style=plastic">
+<img alt="Jacoco coverage" src=".github/badges/jacoco.svg">
+<img alt="Jacoco branches coverage" src=".github/badges/branches.svg">
 </h3>
 
 # Quick start
