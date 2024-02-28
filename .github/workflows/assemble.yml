@@ -3,7 +3,7 @@ on:
   push:
 jobs:
   build-gradle-project:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     steps:
       - name: Checkout project sources
         uses: actions/checkout@v3

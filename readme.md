@@ -10,7 +10,7 @@
 * `docker run -it -d --name node-scope  -p 8082:8082 --privileged superstep/node-scope`
 * Access via 8082 port
 
-[Demo](http://app.nimbus-cloud.ru:8082/)
+[Demo](http://78.36.94.147:8082/)
 
 <h3 align = "center">
     <img src = "images/screen1.png" alt = "Logo" />
